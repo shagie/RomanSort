@@ -25,6 +25,9 @@ public class Sorter {
             LOG.error("Error reading numbers.txt", e);
         }
 
+        record Roman(String initial, Integer numeric, String simplified) {
+        }
+
         numbers.stream()
                 .map(s -> {
                     int arabic = Util.romanToArabic(s);
