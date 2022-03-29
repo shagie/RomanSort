@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @SuppressWarnings("java:S106")
@@ -25,7 +26,9 @@ public class Sorter {
         }
 
         numbers.stream()
-                .sorted()
+                .map(s -> new Roman(s, 1, s))
+                .sorted(Comparator.comparing(Roman::numeric))
+                .map(Roman::simplified)
                 .forEach(System.out::println);
     }
 }
