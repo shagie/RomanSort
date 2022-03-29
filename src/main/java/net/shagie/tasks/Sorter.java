@@ -24,6 +24,8 @@ public class Sorter {
             LOG.error("Error reading numbers.txt", e);
         }
 
-        System.out.println(numbers.get(0));
+        numbers.stream()
+                .sorted()
+                .forEach(System.out::println);
     }
 }
