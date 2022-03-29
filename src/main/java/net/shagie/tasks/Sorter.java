@@ -26,9 +26,13 @@ public class Sorter {
         }
 
         numbers.stream()
-                .map(s -> new Roman(s, Util.romanToArabic(s), s))
+                .map(s -> {
+                    int arabic = Util.romanToArabic(s);
+                    String simple = Util.arabicToRoman(arabic);
+                    return new Roman(s, arabic, simple);
+                })
                 .sorted(Comparator.comparing(Roman::numeric))
-                .map(Roman::numeric)
+                .map(Roman::simplified)
                 .forEach(System.out::println);
     }
 }
