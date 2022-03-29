@@ -11,6 +11,10 @@ public class Util {
     private static final Logger LOG = LoggerFactory.getLogger(Util.class);
     private static final NavigableMap<Integer, String> A2RMAP = new TreeMap<>();
 
+    private Util() {
+        // Empty constructor - do not instantiate
+    }
+
     static {
         A2RMAP.put(1, "I");
         A2RMAP.put(4, "IV");
