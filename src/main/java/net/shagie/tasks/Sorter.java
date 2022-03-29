@@ -7,17 +7,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Sorter {
     private static final Logger LOG = LoggerFactory.getLogger(Sorter.class);
 
     public static void main(String[] args) {
+        List<String> numbers = new ArrayList<>();
+
         Path path = Paths.get("numbers.txt");
         try {
-            String read = Files.readAllLines(path).get(0);
-            System.out.println(read);
+            numbers = Files.readAllLines(path);
         } catch (IOException e) {
             LOG.error("Error reading numbers.txt", e);
         }
+
+        System.out.println(numbers.get(0));
     }
 }
