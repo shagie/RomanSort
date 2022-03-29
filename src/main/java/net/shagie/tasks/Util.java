@@ -11,9 +11,11 @@ public class Util {
     public static int romanToArabic(String roman) {
         int state = 1;
         int sum = 0;
+        LOG.debug("Got {}", roman);
+        String reversed = new StringBuilder(roman).reverse().toString().toUpperCase(Locale.ROOT);
 
-        for (String c : roman.toUpperCase(Locale.ROOT).split("")) {
-
+        for (String c : reversed.split("")) {
+            LOG.debug("  state: {}, sum: {}; c: {}", state, sum, c);
             sum +=
                     switch (c) {
                         case "I" -> ((state < 2) ? 1 : -1);
@@ -56,6 +58,7 @@ public class Util {
                             yield 0;
                         }
                     };
+            LOG.debug("    sum: {}", sum);
         }
 
         return sum;
