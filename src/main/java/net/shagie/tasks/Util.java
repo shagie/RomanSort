@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
     private static final Logger LOG = LoggerFactory.getLogger(Util.class);
@@ -39,20 +40,17 @@ public class Util {
     }
 
     public static int romanToArabic(String roman) {
-        int state = 1;
-        int sum = 0;
+        final AtomicInteger state = new AtomicInteger(1);
         LOG.debug("Got {}", roman);
         String reversed = new StringBuilder(roman).reverse().toString().toUpperCase(Locale.ROOT);
 
-        for (String c : reversed.split("")) {
-            LOG.debug("  state: {}, sum: {}; c: {}", state, sum, c);
-            int lookup = R2AMAP.getOrDefault(c, 0);
-            state = Math.max(state, lookup);
-            sum += lookup * (state == lookup ? 1 : -1);
-            LOG.debug("    sum: {}", sum);
-        }
-
-        return sum;
+        return Arrays.stream(reversed.split(""))
+                .mapToInt(c -> {
+                    int lookup = R2AMAP.getOrDefault(c, 0);
+                    state.set(Math.max(state.get(), lookup));
+                    lookup *= state.get() == lookup ? 1 : -1;
+                    return lookup;
+                }).sum();
     }
 
     public static String arabicToRoman(int num) {
