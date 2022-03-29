@@ -26,9 +26,9 @@ public class Sorter {
         }
 
         numbers.stream()
-                .map(s -> new Roman(s, 1, s))
+                .map(s -> new Roman(s, Util.romanToArabic(s), s))
                 .sorted(Comparator.comparing(Roman::numeric))
-                .map(Roman::simplified)
+                .map(Roman::numeric)
                 .forEach(System.out::println);
     }
 }
