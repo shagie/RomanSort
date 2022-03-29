@@ -3,13 +3,12 @@ package net.shagie.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Util {
     private static final Logger LOG = LoggerFactory.getLogger(Util.class);
     private static final NavigableMap<Integer, String> A2RMAP = new TreeMap<>();
+    private static final Map<String, Integer> R2AMAP = new HashMap<>();
 
     private Util() {
         // Empty constructor - do not instantiate
@@ -29,6 +28,14 @@ public class Util {
         A2RMAP.put(500, "D");
         A2RMAP.put(900, "CM");
         A2RMAP.put(1000, "M");
+
+        R2AMAP.put("I", 1);
+        R2AMAP.put("V", 5);
+        R2AMAP.put("X", 10);
+        R2AMAP.put("L", 50);
+        R2AMAP.put("C", 100);
+        R2AMAP.put("D", 500);
+        R2AMAP.put("M", 1000);
     }
 
     public static int romanToArabic(String roman) {
@@ -39,53 +46,13 @@ public class Util {
 
         for (String c : reversed.split("")) {
             LOG.debug("  state: {}, sum: {}; c: {}", state, sum, c);
-            sum +=
-                    switch (c) {
-                        case "I" -> ((state < 2) ? 1 : -1);
-                        case "V" -> {
-                            if (state < 3) {
-                                state = 2;
-                            }
-                            yield 5 * ((state < 3) ? 1 : -1);
-                        }
-                        case "X" -> {
-                            if (state < 4) {
-                                state = 3;
-                            }
-                            yield 10 * ((state < 4) ? 1 : -1);
-                        }
-                        case "L" -> {
-                            if (state < 5) {
-                                state = 4;
-                            }
-                            yield 50 * ((state < 5) ? 1 : -1);
-                        }
-                        case "C" -> {
-                            if (state < 6) {
-                                state = 5;
-                            }
-                            yield 100 * ((state < 6) ? 1 : -1);
-                        }
-                        case "D" -> {
-                            if (state < 7) {
-                                state = 6;
-                            }
-                            yield 500 * ((state < 7) ? 1 : -1);
-                        }
-                        case "M" -> {
-                            state = 7;
-                            yield 1000;
-                        }
-                        default -> {
-                            LOG.error("Invalid character {}", c);
-                            yield 0;
-                        }
-                    };
+            int lookup = R2AMAP.getOrDefault(c, 0);
+            state = Math.max(state, lookup);
+            sum += lookup * (state == lookup ? 1 : -1);
             LOG.debug("    sum: {}", sum);
         }
 
         return sum;
-
     }
 
     public static String arabicToRoman(int num) {
