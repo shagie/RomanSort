@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("java:S106")
 public class Sorter {
     private static final Logger LOG = LoggerFactory.getLogger(Sorter.class);
 
