@@ -4,9 +4,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class Util {
     private static final Logger LOG = LoggerFactory.getLogger(Util.class);
+    private static final NavigableMap<Integer, String> A2RMAP = new TreeMap<>();
+
+    static {
+        A2RMAP.put(1, "I");
+        A2RMAP.put(4, "IV");
+        A2RMAP.put(5, "V");
+        A2RMAP.put(9, "IX");
+        A2RMAP.put(10, "X");
+        A2RMAP.put(40, "XL");
+        A2RMAP.put(50, "L");
+        A2RMAP.put(90, "XC");
+        A2RMAP.put(100, "C");
+        A2RMAP.put(400, "CD");
+        A2RMAP.put(500, "D");
+        A2RMAP.put(900, "CM");
+        A2RMAP.put(1000, "M");
+    }
 
     public static int romanToArabic(String roman) {
         int state = 1;
@@ -66,6 +85,16 @@ public class Util {
     }
 
     public static String arabicToRoman(int num) {
-        return "";
+        if (num < 1) {
+            throw new NumberFormatException("Negative and zero roman numerals are not defined");
+        }
+        int tmp = num;
+        StringBuilder rv = new StringBuilder();
+        while (tmp > 0) {
+            int key = A2RMAP.floorKey(tmp);
+            rv.append(A2RMAP.get(key));
+            tmp -= key;
+        }
+        return rv.toString();
     }
 }
