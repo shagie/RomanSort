@@ -46,31 +46,31 @@ public class Util {
                             if (state < 3) {
                                 state = 2;
                             }
-                            yield ((state < 3) ? 5 : -5);
+                            yield 5 * ((state < 3) ? 1 : -1);
                         }
                         case "X" -> {
                             if (state < 4) {
                                 state = 3;
                             }
-                            yield ((state < 4) ? 10 : -10);
+                            yield 10 * ((state < 4) ? 1 : -1);
                         }
                         case "L" -> {
                             if (state < 5) {
                                 state = 4;
                             }
-                            yield ((state < 5) ? 50 : -50);
+                            yield 50 * ((state < 5) ? 1 : -1);
                         }
                         case "C" -> {
                             if (state < 6) {
                                 state = 5;
                             }
-                            yield ((state < 6) ? 100 : -100);
+                            yield 100 * ((state < 6) ? 1 : -1);
                         }
                         case "D" -> {
                             if (state < 7) {
                                 state = 6;
                             }
-                            yield ((state < 7) ? 500 : -500);
+                            yield 500 * ((state < 7) ? 1 : -1);
                         }
                         case "M" -> {
                             state = 7;
